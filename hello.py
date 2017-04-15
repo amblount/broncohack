@@ -49,10 +49,9 @@ def getData(HomeBoundID):
     else:
         return str(homeBound)
 
-@app.route("/<string:usertype>")
+@app.route("/landing/<string:usertype>")
 def getProfiles(usertype):
-
-    return render_template("profile.html",usertype=usertype)
+    return render_template("profile.html", usertype=usertype)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -69,26 +68,34 @@ def login():
 
         # user = query_db("select * from Users where UserEmail=?",[username],one=True)
         # passwordDB = sha512(user[0]).hexdigest()
-        passwordDB = sha256("password").hexdigest()
+        # passwordDB = sha256("password").hexdigest()
 
-        if passwordChallenge == passwordDB:
-
-            login_user(username)
-
-            flask.flash('Logged in successfully.')
-
-            next = flask.request.args.get('next')
-            # is_safe_url should check if the url is safe for redirects.
-            # See http://flask.pocoo.org/snippets/62/ for an example.
-            if not is_safe_url(next):
-                return flask.abort(400)
-
-            return flask.redirect(next or flask.url_for('index'))
-
+        if passwordChallenge == sha256("employer").hexdigest():
+            return render_template("profile.html",usertype="employer")
+        elif passwordChallenge == sha256("donor").hexdigest():
+            return render_template("profile.html",usertype="donor")
+        elif passwordChallenge == sha256("shelter").hexdigest():
+            return render_template("profile.html",usertype="shelter")
         else:
-            flask.flash('Incorrect username/password combination.')
-
-        return render_template("/")
+            return render_template("index.html")
+        # if passwordChallenge == passwordDB:
+        #
+        #     login_user(username)
+        #
+        #     flask.flash('Logged in successfully.')
+        #
+        #     next = flask.request.args.get('next')
+        #     # is_safe_url should check if the url is safe for redirects.
+        #     # See http://flask.pocoo.org/snippets/62/ for an example.
+        #     if not is_safe_url(next):
+        #         return flask.abort(400)
+        #
+        #     return flask.redirect(next or flask.url_for('index'))
+        #
+        # else:
+        #     flask.flash('Incorrect username/password combination.')
+        #
+        # return render_template("/")
 
 #===== DB TEARDOWN =====#
 

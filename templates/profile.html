@@ -243,6 +243,10 @@ email
 </div>
 
 <div><!-- TABLE DIV -->
+
+  {% if usertype=="employer" %}
+
+  <h1>Employer Login</h1>
   <table>
     <caption>Employer Login</caption>
   <tr>
@@ -316,8 +320,11 @@ email
     <td>x</td>
   </tr>
 </table>
+{% endif %}
 
+{% if usertype=="donor" %}
 
+<h1>Donor </h1>
 <table>
   <caption>Donator Login</caption>
 <tr>
@@ -335,6 +342,7 @@ email
   <td>x</td>
 </tr>
 </table>
+{% endif %}
 
 </div>
 
