@@ -7,6 +7,10 @@
 [Ll]ib64
 [Ll]ocal
 [Ss]cripts
+img
 pyvenv.cfg
 .venv
 pip-selfcheck.json
+
+#emacs
+*~
