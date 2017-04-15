@@ -4,7 +4,7 @@
 
 import sqlite3
 from flask import Flask, render_template, g, request, flash
-from hashlib import sha256, hexdigest
+from hashlib import sha256
 
 #===== APP INIT ======#
 
@@ -43,6 +43,8 @@ def get_data(HomeBound_UID):
         return "No such user"
     else:
         return str(homeBound)
+
+@app.route('/logout',)
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
