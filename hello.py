@@ -3,7 +3,7 @@
 #===== MODULES =====#
 
 import sqlite3
-from flask import Flask, render_template, g, request, flash
+from flask import Flask, render_template, g, request, flash, redirect
 from hashlib import sha256
 from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user
 
@@ -71,11 +71,13 @@ def login():
         # passwordDB = sha256("password").hexdigest()
 
         if passwordChallenge == sha256("employer").hexdigest():
-            return render_template("profile.html",usertype="employer")
+            return redirect("/landing/employer")
+
         elif passwordChallenge == sha256("donor").hexdigest():
-            return render_template("profile.html",usertype="donor")
+            return redirect("/landing/donor")
+
         elif passwordChallenge == sha256("shelter").hexdigest():
-            return render_template("profile.html",usertype="shelter")
+            return redirect("/landing/shelter")
         else:
             return render_template("index.html")
         # if passwordChallenge == passwordDB:
