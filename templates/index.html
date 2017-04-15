@@ -45,6 +45,9 @@
           <li><a href="#login" data-toggle="modal" data-target="#login-modal" onclick="document.getElementById('id01').style.display='block'">Login</a></li>
           <li><a href="#app">Download App</a><li>
           <li><a href="#contact">About Us</a></li>
+          {% if current_user.is_authenticated %}
+            <li><a href="#logout">Hi {{ current_user.name }}</a></li>
+          {% endif %}
         </ul>
       </div><!--/.nav-collapse -->
     </div>
@@ -54,7 +57,7 @@
 <!-- Here lies the login modal -->
 <div id="id01" class="modal">
 
-  <form class="modal-content animate" action="/action_page.php">
+  <form class="modal-content animate" action="/login" method="POST">
     <div class="imgcontainer">
       <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
     </div>

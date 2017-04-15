@@ -5,10 +5,16 @@
 import sqlite3
 from flask import Flask, render_template, g, request, flash
 from hashlib import sha256
+from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user
 
 #===== APP INIT ======#
 
 app = Flask(__name__)
+
+#===== LOGIN MANAGEMENT =====#
+
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 #===== DB CONNECT =====#
 
@@ -36,30 +42,33 @@ def main():
     # static_url = url_for('static', filename='style.css')
     return render_template("index.html")
 
-@app.route("/data/<int:HomeBound_UID>")
-def get_data(HomeBound_UID):
-    homeBound = query_db("select * from HomeBound where HomeBoundUID=?",[HomeBound_UID], one=True)
+@app.route("/data/<int:HomeBoundID>")
+def get_data(HomeBoundID):
+    homeBound = query_db("select * from HomeBounds where HomeBoundID=?",[HomeBoundID], one=True)
     if homeBound is None:
         return "No such user"
     else:
         return str(homeBound)
 
-@app.route('/logout',)
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get(user_id)
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
-    # error = None
+    error = None
     if request.method == 'POST':
 
-        username = request.form['username']
-        passwordChallenge = sha512(request.form['password']).hexdigest()
+        username = request.form['uname']
+        passwordChallenge = sha256(request.form['psw']).hexdigest()
 
-        user = query_db("select * from Users where UserEmail=?",[username],one=True)
-        passwordDB = sha512(user[0]).hexdigest()
+        # user = query_db("select * from Users where UserEmail=?",[username],one=True)
+        # passwordDB = sha512(user[0]).hexdigest()
+        passwordDB = sha256("password").hexdigest()
 
         if passwordChallenge == passwordDB:
 
-            login_user(user)
+            login_user(username)
 
             flask.flash('Logged in successfully.')
 
@@ -74,7 +83,7 @@ def login():
         else:
             flask.flash('Incorrect username/password combination.')
 
-        return flask.render_template('login.html', form=form)
+        return render_template("/")
 
 #===== DB TEARDOWN =====#
 
