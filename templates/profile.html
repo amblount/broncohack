@@ -1,15 +1,235 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- <link rel="icon" href="../../favicon.ico"> -->
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <link href="static/style.css" rel="stylesheet">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <title>Urban Wallet</title>
+
   </head>
 
   <body>
-    <p>Variables should appear below</p>
-    {{shelter}}
-    <br/>
-    {{homebound_ID}}
-  </body>
 
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar" >Login</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+
+        <a class="navbar-brand" href="/">Urban Wallet</a>
+      </div>
+
+      <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <!-- <li><a href="#login">Login</a></li> -->
+          <li><a href="#login" data-toggle="modal" data-target="#login-modal" onclick="document.getElementById('id01').style.display='block'">Login</a></li>
+          <li><a href="#app">Download App</a><li>
+          <li><a href="#contact">About Us</a></li>
+          {% if current_user.is_authenticated %}
+            <li><a href="#logout">Hi {{ current_user.name }}</a></li>
+          {% endif %}
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </nav>
+
+
+<!-- Here lies the login modal -->
+<div id="id01" class="modal">
+
+  <form class="modal-content animate" action="/login" method="POST">
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+    </div>
+
+    <div class="container-login-top">
+      <label><b>Username</b></label><p></p>
+      <input type="text" placeholder="Enter Username" name="uname" required><p></p>
+
+      <label><b>Password</b></label><p></p>
+      <input type="password" placeholder="Enter Password" name="psw" required><p></p>
+
+      <button type="submit">Login</button><p></p>
+      <input type="checkbox" checked="checked"> Remember me
+    </div>
+
+    <div class="container-login-bottom" style="background-color:#f1f1f1">
+      <span class="psw">Forgot <a href="#">password?</a></span>
+      <span class="create_acc" onclick="document.getElementById('id01').style.display='none';document.getElementById('id02').style.display='block'"><a href="#">New user?</a></span>
+    </div>
+  </form>
+
+  <script>
+  // Get the modal
+  var modal = document.getElementById('id01');
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+      if (event.target == modal) {
+          modal.style.display = "none";
+      }
+  }
+  </script>
+</div>
+
+<!-- Here lies the signup hub -->
+<div id="id02" class="modal">
+
+  <form class="modal-content animate">
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
+    </div>
+
+    <div class="container-login-top">
+      <label><b>I am registering as a...</b></label><p></p>
+      <button onclick="document.getElementById('id02').style.display='none';document.getElementById('id03').style.display='block'">Shelter</button><p></p>
+      <button onclick="document.getElementById('id02').style.display='none';document.getElementById('id04').style.display='block'">Company</button><p></p>
+      <button onclick="document.getElementById('id02').style.display='none';document.getElementById('id05').style.display='block'">Donor</button><p></p>
+    </div>
+
+  </form>
+
+  <script>
+  // Get the modal
+  var modal = document.getElementById('id02');
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+      if (event.target == modal) {
+          modal.style.display = "none";
+      }
+  }
+  </script>
+</div>
+
+<!--
+shelter:
+username
+password
+shelter name
+shelter location
+contract
+
+company:
+username
+password
+company name
+company email
+phone#
+contract
+
+donor:
+username
+password
+donername
+email
+
+-->
+
+<!-- Here lies the Shelter modal -->
+<div id="id03" class="modal">
+  <form class="modal-content animate" action="/action_page.php">
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('id03').style.display='none'" class="close" title="Close Modal">&times;</span>
+    </div>
+
+    <div class="container-login-top">
+      <label><b>Username</b></label><p></p>
+      <input type="text" placeholder="Enter Username" name="suname" required><p></p>
+
+      <label><b>Password</b></label><p></p>
+      <input type="text" placeholder="Enter Password" name="spsw" required><p></p>
+
+      <label><b>Shelter Name</b></label><p></p>
+      <input type="text" placeholder="Enter Shelter Name" name="sname" required><p></p>
+
+      <label><b>Shelter Address</b></label><p></p>
+      <input type="password" placeholder="Enter Shelter Address" name="saddr" required><p></p>
+
+      <input type="checkbox" required> I agree to the Terms and Condition
+      <button type="submit">Register</button><p></p>
+    </div>
+
+  </form>
+</div>
+
+<!-- Here lies the Shelter modal -->
+<div id="id04" class="modal">
+  <form class="modal-content animate" action="/action_page.php">
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('id04').style.display='none'" class="close" title="Close Modal">&times;</span>
+    </div>
+
+    <div class="container-login-top">
+      <label><b>Username</b></label><p></p>
+      <input type="text" placeholder="Enter Username" name="cuname" required><p></p>
+
+      <label><b>Password</b></label><p></p>
+      <input type="text" placeholder="Enter Password" name="cpsw" required><p></p>
+
+      <label><b>Company Name</b></label><p></p>
+      <input type="text" placeholder="Enter Company Name" name="cname" required><p></p>
+
+      <label><b>Company E-mail Address</b></label><p></p>
+      <input type="password" placeholder="Enter Company E-mail Address" name="cemail" required><p></p>
+
+      <input type="checkbox" required> I agree to the Terms and Condition
+      <button type="submit">Register</button><p></p>
+    </div>
+
+  </form>
+</div>
+
+<!-- Here lies the Shelter modal -->
+<div id="id05" class="modal">
+  <form class="modal-content animate" action="/action_page.php">
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('id05').style.display='none'" class="close" title="Close Modal">&times;</span>
+    </div>
+
+    <div class="container-login-top">
+      <label><b>Username</b></label><p></p>
+      <input type="text" placeholder="Enter Username" name="uuname" required><p></p>
+
+      <label><b>Password</b></label><p></p>
+      <input type="text" placeholder="Enter Password" name="upsw" required><p></p>
+
+      <label><b>Full Name</b></label><p></p>
+      <input type="text" placeholder="Enter Your Name" name="uname" required><p></p>
+
+      <label><b>Your E-mail Address</b></label><p></p>
+      <input type="password" placeholder="Enter Your E-mail Address" name="uemail" required><p></p>
+
+      <input type="checkbox" required> I agree to the Terms and Condition
+      <button type="submit">Register</button><p></p>
+    </div>
+
+  </form>
+</div>
+
+<div>
+
+</div>
+
+</body>
 </html>

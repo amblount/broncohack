@@ -31,7 +31,7 @@ def query_db(query, args=(), one=False):
     rv = cur.fetchall()
     cur.close()
 
-    #returns a TUPLE
+    #returns a TUPLE, NOT DICT
     return (rv[0] if rv else None) if one else rv
 
 
@@ -39,21 +39,29 @@ def query_db(query, args=(), one=False):
 
 @app.route("/")
 def main():
-    # static_url = url_for('static', filename='style.css')
     return render_template("index.html")
 
 @app.route("/data/<int:HomeBoundID>")
-def get_data(HomeBoundID):
+def getData(HomeBoundID):
     homeBound = query_db("select * from HomeBounds where HomeBoundID=?",[HomeBoundID], one=True)
     if homeBound is None:
         return "No such user"
     else:
         return str(homeBound)
 
+@app.route("/profile/<int:HomeBoundID>")
+def getProfile(HomeBoundID):
+    homeBound = query_db("select * from HomeBounds where HomeBoundID=?",[HomeBoundID], one=True)
+    if homeBound is None:
+        return "No such user"
+    else:
+        None
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.get(user_id)
 
+# not working!!!!!
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     error = None
@@ -84,6 +92,18 @@ def login():
             flask.flash('Incorrect username/password combination.')
 
         return render_template("/")
+
+# @app.route("/donor")
+# def getDonorPage():
+#     return render_template("profile.html",)
+#
+# @app.route("/shelter")
+# def getShelterPage():
+#
+# @app.route("/employer")
+# def getEmployerPage():
+
+
 
 #===== DB TEARDOWN =====#
 
