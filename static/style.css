@@ -7,13 +7,28 @@ body {
 }
 
 #div1{
-	padding-bottom: 30px;
+    height: 1px;
+}
+#filler{
+    height: 50px;
+}
+
+.wrapper-left{
+    width: 50%;
+}
+
+.wrapper-right{
+    width: 50%;
+}
+
+.header-pic{
+    float: center;
 }
 
 .example1{
 	padding-right: 20px;
-	width: 349px;
-	height: 262px;
+	width: 320px;
+	height: 180px;
 	float: left;
 }
 
@@ -72,7 +87,12 @@ img.avatar {
 .container {
     padding: 16px;
 }
-
+.container1 {
+    padding-top: 32px;
+}
+.container2{
+    padding: 16px;
+}
 .container-login-top {
 	padding: 16px;
 }
