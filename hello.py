@@ -49,13 +49,10 @@ def getData(HomeBoundID):
     else:
         return str(homeBound)
 
-@app.route("/profile/<int:HomeBoundID>")
-def getProfile(HomeBoundID):
-    homeBound = query_db("select * from HomeBounds where HomeBoundID=?",[HomeBoundID], one=True)
-    if homeBound is None:
-        return "No such user"
-    else:
-        None
+@app.route("/<string:usertype>")
+def getProfiles(usertype):
+
+    return render_template("profile.html",usertype=usertype)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -92,18 +89,6 @@ def login():
             flask.flash('Incorrect username/password combination.')
 
         return render_template("/")
-
-# @app.route("/donor")
-# def getDonorPage():
-#     return render_template("profile.html",)
-#
-# @app.route("/shelter")
-# def getShelterPage():
-#
-# @app.route("/employer")
-# def getEmployerPage():
-
-
 
 #===== DB TEARDOWN =====#
 
